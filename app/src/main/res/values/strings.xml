@@ -1,0 +1,13 @@
+<resources>
+	<string name="app_name">FsUiTesting</string>
+	<string name="login_hint">login</string>
+	<string name="password_hint">password</string>
+	<string name="login">Login</string>
+
+	<string name="main_greeting">Hello %s! Nice to meet you!</string>
+	<string name="main_balance">Your balance: %1$s %2$s</string>
+
+	<string name="loading">Loading....\nPlease wait</string>
+
+	<string name="balance_item_amount">%1$s %2$s</string>
+</resources>

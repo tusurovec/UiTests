@@ -1,12 +1,8 @@
-package sharaev.slava.ra.espresso.workshop03Tests
+package sharaev.slava.ra.espresso.workshop03tests
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewAction
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.PositionAssertions
-import androidx.test.espresso.assertion.PositionAssertions.isBelow
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
@@ -25,7 +21,7 @@ class LoginActivityUITests {
     val activityRule = ActivityScenarioRule(LoginActivity::class.java)
 
     @Test
-    fun checkLoginTextInputLayout() {
+    fun checkLoginLayout() {
         onView(withId(R.id.login_input))
             .check(
                 ViewAssertions.matches(
@@ -33,15 +29,14 @@ class LoginActivityUITests {
                         isDisplayed(),
                         hasDescendant(
                             withId(R.id.login_et)
-                        ),
-                        hasFocus()
+                        )
                     )
                 )
             )
     }
 
     @Test
-    fun checkLoginTextInputEditText() {
+    fun checkLoginTextInputHint() {
         onView(withId(R.id.login_et))
             .check(
                 ViewAssertions.matches(
@@ -51,13 +46,18 @@ class LoginActivityUITests {
                     )
                 )
             )
+    }
+
+    @Test
+    fun typeLogin() {
+        onView(withId(R.id.login_et))
             .perform(
                 typeText("Test_login")
             )
     }
 
     @Test
-    fun checkPasswordTextInputLayout() {
+    fun checkPasswordLayout() {
         onView((withChild(withHint("password"))))
             .check(
                 ViewAssertions.matches(
@@ -67,7 +67,7 @@ class LoginActivityUITests {
     }
 
     @Test
-    fun checkPasswordTextInputEditText() {
+    fun checkPasswordTextInput() {
         onView(withParent(withId(R.id.password_input)))
             .check(
                 ViewAssertions.matches(
@@ -89,6 +89,11 @@ class LoginActivityUITests {
                     )
                 )
             )
+    }
+
+    @Test
+    fun clickLoginButton() {
+        onView(withId(R.id.login_button))
             .perform(
                 click()
             )

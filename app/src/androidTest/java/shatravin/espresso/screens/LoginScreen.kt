@@ -1,83 +1,93 @@
 package shatravin.espresso.screens
 
 import android.view.View
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import sharaev.slava.ra.espresso.R
 
 object LoginScreen {
 
-    private val loginInputViewMatcher : Matcher<View> = ViewMatchers.withId(R.id.login_input)
-    private val passwordInputViewMatcher : Matcher<View> = ViewMatchers.withId(R.id.password_input)
-    private val loginButtonViewMatcher : Matcher<View> = ViewMatchers.withId(R.id.login_button)
+    private val loginInputViewMatcher : Matcher<View> = withId(R.id.login_input)
+    private val passwordInputViewMatcher : Matcher<View> = withId(R.id.password_input)
+    private val loginButtonViewMatcher : Matcher<View> = withId(R.id.login_button)
 
-    fun checkLoginInputDisplayed(text: String? = null, hint : String? = null) {
-        val loginInteraction = Espresso.onView(loginInputViewMatcher)
-        val matchers = mutableListOf<Matcher<View>>(ViewMatchers.isDisplayed())
-
-        if(hint != null) {
-            matchers.add(getTextInputHintMatcher(hint))
-        }
-
-        if(text != null) {
-            matchers.add(getTextInputTextMatcher(text))
-        }
-
-        loginInteraction
+    fun checkLoginInputDisplayed() {
+        onView(loginInputViewMatcher)
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(matchers)
+                matches(
+                    isDisplayed()
                 )
             )
     }
 
-    fun checkPasswordInputDisplayed(text : String? = null, hint : String? = null) {
-        val passwordInteraction = Espresso.onView(passwordInputViewMatcher)
-        val matchers = mutableListOf<Matcher<View>>(ViewMatchers.isDisplayed())
-
-        if(hint != null) {
-            matchers.add(getTextInputHintMatcher(hint))
-        }
-
-        if(text != null) {
-            matchers.add(getTextInputTextMatcher(text))
-        }
-
-        passwordInteraction
+    fun checkLoginInputHint(hint : String) {
+        onView(loginInputViewMatcher)
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(matchers)
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(withHint(hint))
+                    )
                 )
             )
     }
 
-    fun checkLoginButtonDisplayed(text: String? = null) {
-        val loginButtonInteraction = Espresso.onView(loginButtonViewMatcher)
-        val matchers = mutableListOf<Matcher<View>>(
-            ViewMatchers.isDisplayed(),
-            ViewMatchers.isEnabled(),
-            ViewMatchers.isClickable()
-        )
-
-        if(text != null) {
-            matchers.add(ViewMatchers.withText(text))
-        }
-
-        loginButtonInteraction
+    fun checkPasswordInputDisplayed() {
+        onView(passwordInputViewMatcher)
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(matchers)
+                matches(
+                    isDisplayed()
+                )
+            )
+    }
+
+
+    fun checkPasswordInputText(text : String) {
+        onView(passwordInputViewMatcher)
+            .check(
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(withText(text))
+                    )
+                )
+            )
+    }
+
+    fun checkPasswordInputHint(hint : String) {
+        onView(passwordInputViewMatcher)
+            .check(
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(withHint(hint))
+                    )
+                )
+            )
+    }
+
+
+    fun checkLoginButtonDisplayed(text: String) {
+        onView(loginButtonViewMatcher)
+            .check(
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        isEnabled(),
+                        isClickable(),
+                        withText(text)
+                    )
                 )
             )
     }
 
     fun clickLoginButton() {
-        Espresso.onView(loginButtonViewMatcher)
+        onView(loginButtonViewMatcher)
             .perform(
                 ViewActions.click()
             )
@@ -94,7 +104,7 @@ object LoginScreen {
     private fun typeText(textInputMatcher : Matcher<View>, text: String) {
         getTextInputEditFieldInteraction(textInputMatcher)
             .check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+                matches(isDisplayed())
             )
             .perform(
                 ViewActions.typeText(text)
@@ -102,12 +112,9 @@ object LoginScreen {
     }
 
     private fun getTextInputEditFieldInteraction(textInputMatcher : Matcher<View>) : ViewInteraction =
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.supportsInputMethods(),
-                ViewMatchers.isDescendantOfA(textInputMatcher))
+        onView(
+            allOf(
+                supportsInputMethods(),
+                isDescendantOfA(textInputMatcher))
         )
-
-    private fun getTextInputHintMatcher(hint: String) : Matcher<View> = ViewMatchers.hasDescendant(ViewMatchers.withHint(hint))
-    private fun getTextInputTextMatcher(text: String) : Matcher<View> = ViewMatchers.hasDescendant(ViewMatchers.withText(text))
 }

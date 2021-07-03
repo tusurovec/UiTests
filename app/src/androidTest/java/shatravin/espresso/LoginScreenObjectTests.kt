@@ -17,12 +17,14 @@ class LoginScreenObjectTests {
 
     @Test
     fun checkLoginFieldDisplayed() {
-        LoginScreen.checkLoginInputDisplayed(hint = "login")
+        LoginScreen.checkLoginInputDisplayed()
+        LoginScreen.checkLoginInputHint("login")
     }
 
     @Test
     fun checkPasswordFieldDisplayed() {
-        LoginScreen.checkPasswordInputDisplayed(hint = "password")
+        LoginScreen.checkPasswordInputDisplayed()
+        LoginScreen.checkPasswordInputHint("password")
     }
 
     @Test
@@ -40,11 +42,12 @@ class LoginScreenObjectTests {
 
     @Test
     fun checkLoginButtonKeepsLoginScreenIfLoginEmpty() {
-        val password = "pwd"
-        LoginScreen.typePassword(password)
+        LoginScreen.typePassword("pwd")
         LoginScreen.clickLoginButton()
-        LoginScreen.checkLoginInputDisplayed(hint = "login")
-        LoginScreen.checkPasswordInputDisplayed(text = password)
+        LoginScreen.checkLoginInputDisplayed()
+        LoginScreen.checkLoginInputHint("login")
+        LoginScreen.checkPasswordInputDisplayed()
+        LoginScreen.checkPasswordInputText("pwd")
     }
 
     @Test

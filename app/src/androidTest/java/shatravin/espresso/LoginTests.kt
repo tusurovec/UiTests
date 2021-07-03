@@ -1,13 +1,13 @@
 package shatravin.espresso
 
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,13 +22,13 @@ class LoginTests {
 
     @Test
     fun checkPasswordFieldDisplayed() {
-        Espresso.onView(ViewMatchers.withId(R.id.password_input))
+        onView(withId(R.id.password_input))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.hasDescendant(
-                            ViewMatchers.withHint("password")
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(
+                            withHint("password")
                         )
                     )
                 )
@@ -37,14 +37,14 @@ class LoginTests {
 
     @Test
     fun checkLoginButtonDisplayed() {
-        Espresso.onView(ViewMatchers.withId(R.id.login_button))
+        onView(withId(R.id.login_button))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.isEnabled(),
-                        ViewMatchers.isClickable(),
-                        ViewMatchers.withText("Login")
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        isEnabled(),
+                        isClickable(),
+                        withText("Login")
                     )
                 )
             )
@@ -52,41 +52,41 @@ class LoginTests {
 
     @Test
     fun checkLoginButtonLoginsWithLoginAndPassword() {
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.supportsInputMethods(),
-                ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.login_input)))
+        onView(
+            allOf(
+                supportsInputMethods(),
+                isDescendantOfA(withId(R.id.login_input)))
             )
             .check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+                matches(isDisplayed())
             )
             .perform(
                 typeText("login")
             )
 
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.supportsInputMethods(),
-                ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.password_input)))
+        onView(
+            allOf(
+                supportsInputMethods(),
+                isDescendantOfA(withId(R.id.password_input)))
             )
             .check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+                matches(isDisplayed())
             )
             .perform(
                 typeText("pwd")
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.login_button))
+        onView(withId(R.id.login_button))
             .perform(
                 click()
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.loading_view))
+        onView(withId(R.id.loading_view))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.withText(R.string.loading)
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        withText(R.string.loading)
                     )
                 )
             )
@@ -94,44 +94,42 @@ class LoginTests {
 
     @Test
     fun checkLoginButtonKeepsLoginScreenIfLoginEmpty() {
-        val password = "pwd"
-
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.supportsInputMethods(),
-                ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.password_input)))
+        onView(
+            allOf(
+                supportsInputMethods(),
+                isDescendantOfA(withId(R.id.password_input)))
             )
             .check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+                matches(isDisplayed())
             )
             .perform(
-                typeText(password)
+                typeText("pwd")
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.login_button))
+        onView(withId(R.id.login_button))
             .perform(
                 click()
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.login_input))
+        onView(withId(R.id.login_input))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.hasDescendant(
-                            ViewMatchers.withHint("login")
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(
+                            withHint("login")
                         )
                     )
                 )
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.password_input))
+        onView(withId(R.id.password_input))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.hasDescendant(
-                            ViewMatchers.withText(password)
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        hasDescendant(
+                            withText("pwd")
                         )
                     )
                 )
@@ -141,29 +139,29 @@ class LoginTests {
     @Test
     fun checkLoginButtonLoginsIfPasswordEmpty() {
 
-        Espresso.onView(
-            Matchers.allOf(
-                ViewMatchers.supportsInputMethods(),
-                ViewMatchers.isDescendantOfA(ViewMatchers.withId(R.id.login_input)))
+        onView(
+            allOf(
+                supportsInputMethods(),
+                isDescendantOfA(withId(R.id.login_input)))
             )
             .check(
-                ViewAssertions.matches(ViewMatchers.isDisplayed())
+                matches(isDisplayed())
             )
             .perform(
                 typeText("login")
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.login_button))
+        onView(withId(R.id.login_button))
             .perform(
                 click()
             )
 
-        Espresso.onView(ViewMatchers.withId(R.id.loading_view))
+        onView(withId(R.id.loading_view))
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.withText(R.string.loading)
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        withText(R.string.loading)
                     )
                 )
             )

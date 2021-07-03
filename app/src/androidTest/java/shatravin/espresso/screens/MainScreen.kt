@@ -1,11 +1,13 @@
 package shatravin.espresso.screens
 
 import android.view.View
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matcher
-import org.hamcrest.Matchers
+import org.hamcrest.Matchers.allOf
 import sharaev.slava.ra.espresso.R
 
 object MainScreen {
@@ -13,12 +15,12 @@ object MainScreen {
     private val loadingTextMatcher : Matcher<View> = ViewMatchers.withId(R.id.loading_view)
 
     fun checkIsLoadingTextVisible() {
-        Espresso.onView(loadingTextMatcher)
+        onView(loadingTextMatcher)
             .check(
-                ViewAssertions.matches(
-                    Matchers.allOf(
-                        ViewMatchers.isDisplayed(),
-                        ViewMatchers.withText(R.string.loading)
+                matches(
+                    allOf(
+                        isDisplayed(),
+                        withText(R.string.loading)
                     )
                 )
             )
